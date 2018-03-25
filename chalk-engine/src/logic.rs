@@ -730,6 +730,8 @@ impl<C: Context> Forest<C> {
                             }));
                         }
                     }
+
+                    // I think we have to extend this to support forAll
                 }
             },
         );

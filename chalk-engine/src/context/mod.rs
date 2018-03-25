@@ -20,6 +20,8 @@ pub trait Context
     /// "meta" goals like `G1 && G2` and so forth natively.
     type DomainGoal: DomainGoal<Self>;
 
+    type Clause: Clause<Self>;
+
     /// A map between universes. These are produced when
     /// u-canonicalizing something; they map canonical results back to
     /// the universes from the original.
@@ -195,7 +197,7 @@ pub trait GoalInEnvironment<C: Context>: Debug + Clone + Eq + Ord + Hash {
 
 pub trait Environment<C: Context>: Debug + Clone {
     // Used by: simplify
-    fn add_clauses(&self, clauses: impl IntoIterator<Item = C::DomainGoal>) -> Self;
+    fn add_clauses(&self, clauses: impl IntoIterator<Item = C::Clause>) -> Self;
 }
 
 pub trait InferenceTable<C: Context>: ResolventOps<C> + TruncateOps<C> {
@@ -244,6 +246,11 @@ pub trait CanonicalConstrainedSubst<C: Context>: Clone + Debug + Eq + Hash + Ord
 }
 
 pub trait DomainGoal<C: Context>: Debug {
+    fn into_goal(self) -> C::Goal;
+}
+
+
+pub trait Clause<C: Context>: Debug {
     fn into_goal(self) -> C::Goal;
 }
 

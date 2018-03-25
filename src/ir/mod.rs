@@ -75,7 +75,7 @@ pub struct ProgramEnvironment {
 /// The set of assumptions we've made so far, and the current number of
 /// universal (forall) quantifiers we're within.
 pub struct Environment {
-    crate clauses: Vec<DomainGoal>,
+    crate clauses: Vec<Clause>,
 }
 
 impl Environment {
@@ -460,6 +460,16 @@ pub enum DomainGoal {
     FromEnv(FromEnv),
     InScope(ItemId),
 }
+
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+pub enum Clause {
+    DomainGoal,
+    Implies(Vec<Goal>, Box<DomainGoal>),
+    And(Box<Clause>, Box<Clause>),
+    ForAll()
+}
+
+
 
 impl DomainGoal {
     /// Lift a goal to a corresponding program clause (with a trivial

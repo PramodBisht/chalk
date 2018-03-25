@@ -54,3 +54,10 @@ impl CouldMatch<DomainGoal> for ProgramClause {
         self.implication.value.consequence.could_match(other)
     }
 }
+
+impl CouldMatch<Clause> for ProgramClause {
+    fn could_match(&self, other: &Clause) -> bool {
+        // returning true here for experimental purpose.
+        return true
+    }
+}

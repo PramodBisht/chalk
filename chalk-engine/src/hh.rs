@@ -7,7 +7,7 @@ pub enum HhGoal<C: Context> {
     /// (deBruijn index).
     ForAll(C::BindersGoal),
     Exists(C::BindersGoal),
-    Implies(Vec<C::DomainGoal>, C::Goal),
+    Implies(Vec<C::Clause>, C::Goal),
     And(C::Goal, C::Goal),
     Not(C::Goal),
     Unify(C::Parameter, C::Parameter),

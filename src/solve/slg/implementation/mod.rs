@@ -59,6 +59,7 @@ impl context::Context for SlgContext {
     type CanonicalConstrainedSubst = Canonical<ConstrainedSubst>;
     type RegionConstraint = InEnvironment<Constraint>;
     type DomainGoal = DomainGoal;
+    type Clause = Clause;
     type Goal = Goal;
     type BindersGoal = Binders<Box<Goal>>;
     type Parameter = Parameter;
@@ -226,7 +227,7 @@ impl context::GoalInEnvironment<SlgContext> for InEnvironment<Goal> {
 }
 
 impl context::Environment<SlgContext> for Arc<Environment> {
-    fn add_clauses(&self, clauses: impl IntoIterator<Item = DomainGoal>) -> Self {
+    fn add_clauses(&self, clauses: impl IntoIterator<Item = Clause>) -> Self {
         Environment::add_clauses(self, clauses)
     }
 }
@@ -245,6 +246,15 @@ impl context::UniverseMap<SlgContext> for ::crate::solve::infer::ucanonicalize::
     ) -> Canonical<ConstrainedSubst> {
         self.map_from_canonical(value)
     }
+}
+
+
+impl context::Clause<SlgContext> for Clause{
+    fn into_goal(self) -> Goal {
+        // changes in self.cast is also required.
+        self.cast()
+    }
+
 }
 
 impl context::DomainGoal<SlgContext> for DomainGoal {

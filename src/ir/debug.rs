@@ -169,6 +169,12 @@ impl Debug for UnselectedNormalize {
     }
 }
 
+impl Debug for Clause {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        // TODO: implement debug
+    }
+}
+
 impl Debug for DomainGoal {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
